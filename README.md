@@ -1,6 +1,4 @@
 # MLOps Introduction: Final Project
-FInal work description in  the [final_project_description.md](final_project_description.md) file.
-
 Student info:
 - Full name: Alexander David Tapia Lescano
 - e-mail: alexddtl@gmail.com
@@ -12,6 +10,76 @@ Student info:
 
 This project implements an end-to-end MLOps pipeline for customer churn prediction,
 including data preparation, model training, experiment tracking, deployment and serving.
+
+Telecommunication companies operate in highly competitive markets where customer retention is critical. Losing customers directly affects profitability and long-term sustainability.
+
+Currently, customer churn is often identified only after the customer has already left. This reactive approach limits the company’s ability to intervene effectively.
+
+By using historical customer data and Machine Learning models, it is possible to predict churn probability in advance and support proactive decision-making.
+
+Customer churn refers to customers who stop using the company’s services. High churn rates negatively impact revenue and increase customer acquisition costs. Therefore, early identification of customers at risk of leaving allows the company to implement targeted retention strategies.
+
+This project applies Machine Learning and MLOps best practices to build a scalable, reproducible, and deployable churn prediction system.
+
+## Project Goals
+
+The main goals of this project are:
+
+Build a reliable churn prediction model.
+
+Implement a reproducible ML pipeline using DVC.
+
+Track experiments using MLflow.
+
+Deploy the trained model via a REST API.
+
+Enable automated data processing and model training.
+
+Ensure version control of code, data, and models.
+
+## Success Metrics
+
+The success of the ML solution is evaluated using the following metrics:
+
+Primary Metric:
+
+ROC-AUC (Area Under the ROC Curve)
+
+Target Performance:
+
+ROC-AUC ≥ 0.80
+
+Secondary Metrics:
+
+Accuracy
+
+F1-Score
+
+## Expected Benefits
+
+Early identification of high-risk customers.
+
+Improved customer retention strategies.
+
+Reduced revenue loss.
+
+Data-driven decision making.
+
+Scalable ML infrastructure.
+
+Improved collaboration and reproducibility.
+
+## Expected Results
+
+A trained and validated churn prediction model.
+
+A complete MLOps pipeline (data → training → evaluation → deployment).
+
+An API endpoint that returns churn probability and prediction.
+
+Documented experiments and evaluation results.
+
+Versioned datasets and models.
 
 ## Project Structure
 
@@ -45,9 +113,47 @@ mlops-final-project/
 ## Data
 https://www.kaggle.com/datasets/blastchar/telco-customer-churn?resource=download
 
-Telco Customer Churn Dataset.
+The dataset contains information about telecom customers, including:
 
-Target variable: `Churn` (Yes/No)
+Demographic information
+
+Account information
+
+Service usage details
+
+Billing and payment data
+
+Contract information
+
+Customer churn status
+
+Each row represents a single customer.
+
+Target Variable:
+
+Churn (Yes / No)
+
+## Main Features
+
+Key variables include:
+
+tenure: Number of months the customer has stayed.
+
+MonthlyCharges: Monthly billing amount.
+
+TotalCharges: Total charges over time.
+
+Contract: Contract type.
+
+PaymentMethod: Payment method.
+
+InternetService: Internet service type.
+
+TechSupport: Technical support subscription.
+
+OnlineSecurity: Online security service.
+
+SeniorCitizen: Whether the customer is a senior citizen.
 
 ## Pipeline
 
