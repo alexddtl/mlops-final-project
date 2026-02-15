@@ -1,0 +1,43 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python src/data_preparation.py
+    deps:
+    - path: data/raw/churn.csv
+      hash: md5
+      md5: 0f9de68e012bd3aed5fa7cdc9fc421af
+      size: 977501
+    - path: src/data_preparation.py
+      hash: md5
+      md5: 7f464c4190a498bb468e9f52cb862042
+      size: 2432
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 3d16057787f2810ada4c08042fcbbfb3.dir
+      size: 4157706
+      nfiles: 2
+    - path: data/training/churn_features.csv
+      hash: md5
+      md5: b73763921e46213651e872862654fe56
+      size: 4157031
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 3422171ef6befac610b2cd5d6cb0cb1f
+      size: 832349
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 60a4ae58ccede37be6b7f3a419031943
+      size: 3325357
+    - path: src/train.py
+      hash: md5
+      md5: 09e30c5ceda93d94392f3d46894285b0
+      size: 2089
+    outs:
+    - path: models/churn_model.pkl
+      hash: md5
+      md5: 6e00471d5cd1f37ae917806fd0efeca1
+      size: 3167
