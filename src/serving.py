@@ -1,28 +1,54 @@
 import joblib
 import numpy as np
-from fastapi import FastAPI
+import pandas as pd
+
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from typing import Dict
 
 
 MODEL_PATH = "models/churn_model.pkl"
 
-model = joblib.load(MODEL_PATH)
+bundle = joblib.load(MODEL_PATH)
 
-app = FastAPI()
+model = bundle["model"]
+FEATURES = bundle["features"]
+MEDIANS = bundle["medians"]
+
+
+app = FastAPI(title="Churn Prediction API")
 
 
 class Customer(BaseModel):
-
-    features: list
+    data: Dict[str, float]
 
 
 @app.post("/predict")
-def predict(data: Customer):
+def predict(request: Customer):
 
-    X = np.array(data.features).reshape(1, -1)
+    input_data = request.data
 
-    pred = model.predict(X)[0]
-    prob = model.predict_proba(X)[0][1]
+    # Create base input using medians
+    row = {}
+
+    for col in FEATURES:
+        row[col] = MEDIANS[col]
+
+    # Override with provided values
+    for col, val in input_data.items():
+
+        if col not in FEATURES:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Unknown feature: {col}"
+            )
+
+        row[col] = val
+
+    df = pd.DataFrame([row])
+
+    pred = model.predict(df)[0]
+    prob = model.predict_proba(df)[0][1]
 
     return {
         "churn_prediction": int(pred),

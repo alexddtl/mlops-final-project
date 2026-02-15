@@ -14,7 +14,6 @@ TEST_PATH = "data/processed/test.csv"
 MODEL_PATH = "models"
 MODEL_FILE = f"{MODEL_PATH}/churn_model.pkl"
 
-
 os.makedirs(MODEL_PATH, exist_ok=True)
 
 
@@ -35,7 +34,6 @@ def load_data():
 def train_model(X_train, y_train):
 
     model = LogisticRegression(max_iter=1000)
-
     model.fit(X_train, y_train)
 
     return model
@@ -53,6 +51,13 @@ def evaluate(model, X_test, y_test):
     return acc, f1, auc
 
 
+def compute_statistics(X_train):
+
+    medians = X_train.median().to_dict()
+
+    return medians
+
+
 def main():
 
     mlflow.set_experiment("churn_prediction")
@@ -65,17 +70,24 @@ def main():
 
         acc, f1, auc = evaluate(model, X_test, y_test)
 
+        medians = compute_statistics(X_train)
+
+        # Save bundle
+        bundle = {
+            "model": model,
+            "features": list(X_train.columns),
+            "medians": medians
+        }
+
+        joblib.dump(bundle, MODEL_FILE)
+
         mlflow.log_metric("accuracy", acc)
         mlflow.log_metric("f1_score", f1)
         mlflow.log_metric("roc_auc", auc)
 
         mlflow.sklearn.log_model(model, "model")
 
-        joblib.dump(model, MODEL_FILE)
-
         print("Model saved:", MODEL_FILE)
-
-        print("Metrics:")
         print("Accuracy:", acc)
         print("F1:", f1)
         print("AUC:", auc)
